@@ -67,7 +67,7 @@ if (isset($_GET['modifierfini']))
 	// }
 	$titre=$_GET['titre'];
 	$modiftitre=$_GET['modiftitre'];
-	echo 'Le titre '.$_GET['titre'].' a été modifié en '.$_GET['modiftitre'];
+	echo 'Le titre <strong>'.$_GET['titre'].'</strong> a été modifié en <strong>'.$_GET['modiftitre'].'</strong>.</br> Cliquez sur <a href="index.php">Accueil</a> pour enlever ce message';
 }
 // appel des fonctions ajoutertitre
 if (isset($_GET['ajoutertitre_m']))
