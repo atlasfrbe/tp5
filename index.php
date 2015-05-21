@@ -16,25 +16,28 @@ file_put_contents(PAGE.'.txt',$nombre);
 $requete=$pdo->prepare('SELECT idtitre, titre, datetitre FROM ttitres ORDER BY titre');
 $requete->execute();
 
+echo '<body bgcolor="#FFFF66">'; // change la couleur du fond d'écran
+echo '<center><a href="index.php"><h1>Accueil</h1></a></p>';
 // table à afficher
-echo '<center><table border="1">';
+echo '<table border="1">';
 echo '<tr><th>Titre</th> <th>Date d\'inscription</th> <th>Modif</th> <th>Suppr</th></tr>';
 while ($donnees = $requete->fetch())
 {
 	echo '<tr><td>'.$donnees['titre'].'</td> <td>'.$donnees['datetitre'].'</td>';
-	echo '<td><a href="index.php?modifier&amp;idtitre='.$donnees['idtitre'].'&amp;titre='.$donnees['titre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir modifier ce titre\'))">Modif</a></td>';
-	echo '<td><a href="index.php?supprimer&amp;idtitre='.$donnees['idtitre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer ce titre\'))">Suppr</a></td></tr>';	
+	echo '<td><a href="index.php?modifiertitre_m&idtitre='.$donnees['idtitre'].'&titre='.$donnees['titre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir modifier ce titre\'))">Modif</a></td>';
+	echo '<td><a href="index.php?supprimertitre&amp;idtitre='.$donnees['idtitre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer ce titre\'))">Suppr</a></td></tr>';	
 
 }
 echo '</table>';
-echo '<a href="ajoutTitre.php">Ajouter un titre</a></center>';
+// echo '<a href="ajoutTitre.php">Ajouter un titre via une autre page</a></br>';
+echo '<a href="index.php?ajoutertitre_m">Ajouter un titre</a></center>';
 
 $requete->closeCursor();
 
-// appel de la fonction supprimer
-if (isset($_GET['supprimer']))
+// appel de la fonction supprimertitre
+if (isset($_GET['supprimertitre']))
 	{
-		supprimer($donnees['idtitre']);
+		supprimertitre($donnees['idtitre']);
 	}
 // au retour de la fonction supprimer:
 if (isset($_GET['suppression']))
@@ -44,25 +47,38 @@ if (isset($_GET['suppression']))
 		echo 'Le titre <strong>'.$donnees['titre'].'</strong> a été supprimé</br>';
 	}
 }
-// appel de la fonction modifiertitre (partie formulaire) et modifiertitre2 (partie UPDATE)
-if (isset($_GET['modifier']))
+// appel des fonctions modifiertitre_v (partie vue) et modifiertitre_c (partie controleur)
+if (isset($_GET['modifiertitre_m']))
 	{
-		modifiertitre($donnees['idtitre']);
+		modifiertitre_v($donnees['idtitre']);
 	}
-if (isset($_GET['modifier2']))
+if (isset($_GET['modifiertitre_c']))
 	{
-		modifiertitre2($donnees['idtitre']);
+		modifiertitre_c($donnees['idtitre']);
 	}
-// au retour de la fonction modifiertitre2 :
-if (isset($_GET['modification']))
+// au retour de la fonction modifiertitre_c :
+if (isset($_GET['modifierfini']))
 {
-	while ($donnees = $requete->fetch())
-	{
-		echo 'Le titre <strong>'.$donnees['titre'].'</strong> a été modifié</br>';
-	}
+	// $requete=$pdo->prepare("SELECT idtitre, titre, datetitre FROM ttitres WHERE idtitre='".$idtitre."' ");
+	// $requete->execute();
+	// while ($donnees = $requete->fetch())
+	// {
+		// echo 'Le titre <strong>'.$donnees['titre'].'</strong> a été modifié</br>';
+	// }
+	$titre=$_GET['titre'];
+	$modiftitre=$_GET['modiftitre'];
+	echo 'Le titre '.$_GET['titre'].' a été modifié en '.$_GET['modiftitre'];
 }
-	
+// appel des fonctions ajoutertitre
+if (isset($_GET['ajoutertitre_m']))
+	{
+		ajoutertitre_v();
+	}
+if (isset($_GET['ajoutertitre_c']))
+	{
+		ajoutertitre_c();
+	}
 // affichage du compteur et du copyright
-echo "<center><p>Copyright &copy; 2014-" . date("Y") . "  Tanguy iepsm.be</p></center>";
-echo 'Page vue '.readfile(PAGE.'.txt').' fois.';
+echo "<center><p>Copyright &copy; 2014-" . date("Y") . "  Tanguy iepsm.be</p>";
+echo 'Page vue '.readfile(PAGE.'.txt').' fois.</center>';
 ?>
