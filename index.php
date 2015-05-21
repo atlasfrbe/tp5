@@ -63,6 +63,6 @@ if (isset($_GET['modification']))
 }
 	
 // affichage du compteur et du copyright
-echo "<center><p>Copyright &copy; 2014-" . date("Y") . " iepsm.be</p></center>";
+echo "<center><p>Copyright &copy; 2014-" . date("Y") . "  Tanguy iepsm.be</p></center>";
 echo 'Page vue '.readfile(PAGE.'.txt').' fois.';
 ?>
