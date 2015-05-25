@@ -24,9 +24,11 @@ echo '<tr><th>Titre</th> <th>Date d\'inscription</th> <th>Modif</th> <th>Suppr</
 while ($donnees = $requete->fetch())
 {
 	echo '<tr><td>'.$donnees['titre'].'</td> <td>'.$donnees['datetitre'].'</td>';
-	echo '<td><a href="index.php?modifiertitre_m&idtitre='.$donnees['idtitre'].'&titre='.$donnees['titre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir modifier ce titre\'))">Modif</a></td>';
-	echo '<td><a href="index.php?supprimertitre&amp;idtitre='.$donnees['idtitre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer ce titre\'))">Suppr</a></td></tr>';	
-
+	echo '<td><a href="index.php?modifiertitre_m&idtitre='.$donnees['idtitre'].'&titre='.$donnees['titre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir modifier ce titre\'))"><img src="images/Modifier42x48.png" alt= "Modif"></a></td>';
+	echo '<td><a href="index.php?supprimertitre&amp;idtitre='.$donnees['idtitre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer ce titre\'))"><img src="images/supprimer45x45.png" alt= "supprimer"></a></td></tr>';	
+	// echo '<td><a href="index.php?supprimertitre&amp;idtitre='.$donnees['idtitre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer ce titre\'))">Suppr</a></td></tr>';
+	// <a href="http://ton lien"><img src="ton image.gif" alt= "nom de ton image"></a>
+	// <a href="http://www.adressedetonsite.com" title="adresse de ton site.com"><img src="http://www.adressedetonsite.com/tonimage.jpg" alt="tonimage" border="0"></a> 
 }
 echo '</table>';
 // echo '<a href="ajoutTitre.php">Ajouter un titre via une autre page</a></br>';
