@@ -1,86 +1,58 @@
-<?php
-// fichiers prérequis
-require 'connexiontp5.php';
-require 'fonction.php';
+<!DOCTYPE HTML>
+<html>
+<head>
+<title> TP5 de Tanguy </title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="style.css" />
+<!-- <style type="text/css">
 
-// instauration d'un compteur
-define ('PAGE','index.html');
-$nombre=1;
-if(file_exists(PAGE.'.txt')){
-$nombre=file_get_contents(PAGE.'.txt');
-if(is_numeric($nombre)){$nombre++;}
+</style> -->
+</head>
+
+<body>
+<center><h3>Videotheque de Tanguy</h3><center>
+    <!-- Le menu -->
+<form id="myForm" action="" method="post" onsubmit="return false">
+	<div class="menu">
+		<div id="nav">
+			<ul>
+				<li><a href="#" onclick="return toggle('pg0')">TITRES</a></li>
+				<li><a href="#" onclick="return toggle('pg1')">PERSONNES</a></li>
+				<li><a href="#" onclick="return toggle('pg2')">CATEGORIES</a></li>
+				<li><a href="#" onclick="return toggle('pg3')">SUPPORTS</a></li>
+				<li><a href="#" onclick="return toggle('pg4')">TYPE DE SUPPORT</a></li>
+			</ul>
+		</div>
+     <!-- Le corps -->
+		<div id="pg">
+			<div id="pg0" class="pg"> <h1 class="h1"> <object type="text/html" data="indextitre.php" width="800px" height="600px"></object></h1> </div>
+			<div id="pg1" class="pg"> <h1 class="h1"> <object type="text/html" data="indexpersonne.php" width="800px" height="600px"></object> </h1> </div>
+			<div id="pg2" class="pg"> <h1 class="h1"> CCCC page </h1> </div>
+			<div id="pg3" class="pg"> <h1 class="h1"> DDDD page </h1> </div>
+			<div id="pg4" class="pg"> <h1 class="h1"> EEEE page </h1> </div>
+		</div>
+	<!-- pied de page -->
+		<object type="text/html" data="copyright.php" width="800px" height="100px"></object>
+	</div>
+</form>
+<script type="text/javascript">
+function toggle(IDS) {
+  var sel = document.getElementById('pg').getElementsByTagName('div');
+  for (var i=0; i<sel.length; i++) { 
+    if (sel[i].id != IDS) { sel[i].style.display = 'none'; }
+  }
+  var status = document.getElementById(IDS).style.display;
+  if (status == 'block') { document.getElementById(IDS).style.display = 'none'; }
+                    else { document.getElementById(IDS).style.display = 'block'; }
+  return false;
 }
-file_put_contents(PAGE.'.txt',$nombre);
-//fin compteur
-
-$requete=$pdo->prepare('SELECT idtitre, titre, datetitre FROM ttitres ORDER BY titre');
-$requete->execute();
-
-echo '<body bgcolor="#FFFF66">'; // change la couleur du fond d'écran
-echo '<center><a href="index.php"><h1>Accueil</h1></a></p>';
-// table à afficher
-echo '<table border="1">';
-echo '<tr><th>Titre</th> <th>Date d\'inscription</th> <th>Modif</th> <th>Suppr</th></tr>';
-while ($donnees = $requete->fetch())
-{
-	echo '<tr><td>'.$donnees['titre'].'</td> <td>'.$donnees['datetitre'].'</td>';
-	echo '<td><a href="index.php?modifiertitre_m&idtitre='.$donnees['idtitre'].'&titre='.$donnees['titre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir modifier ce titre\'))"><img src="images/Modifier42x48.png" alt= "Modif"></a></td>';
-	echo '<td><a href="index.php?supprimertitre&amp;idtitre='.$donnees['idtitre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer ce titre\'))"><img src="images/supprimer45x45.png" alt= "supprimer"></a></td></tr>';	
-	// echo '<td><a href="index.php?supprimertitre&amp;idtitre='.$donnees['idtitre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer ce titre\'))">Suppr</a></td></tr>';
-	// <a href="http://ton lien"><img src="ton image.gif" alt= "nom de ton image"></a>
-	// <a href="http://www.adressedetonsite.com" title="adresse de ton site.com"><img src="http://www.adressedetonsite.com/tonimage.jpg" alt="tonimage" border="0"></a> 
-}
-echo '</table>';
-// echo '<a href="ajoutTitre.php">Ajouter un titre via une autre page</a></br>';
-echo '<a href="index.php?ajoutertitre_m">Ajouter un titre</a></center>';
-
-$requete->closeCursor();
-
-// appel de la fonction supprimertitre
-if (isset($_GET['supprimertitre']))
-	{
-		supprimertitre($donnees['idtitre']);
-	}
-// au retour de la fonction supprimer:
-if (isset($_GET['suppression']))
-{
-	while ($donnees = $requete->fetch())
-	{
-		echo 'Le titre <strong>'.$donnees['titre'].'</strong> a été supprimé</br>';
-	}
-}
-// appel des fonctions modifiertitre_v (partie vue) et modifiertitre_c (partie controleur)
-if (isset($_GET['modifiertitre_m']))
-	{
-		modifiertitre_v($donnees['idtitre']);
-	}
-if (isset($_GET['modifiertitre_c']))
-	{
-		modifiertitre_c($donnees['idtitre']);
-	}
-// au retour de la fonction modifiertitre_c :
-if (isset($_GET['modifierfini']))
-{
-	// $requete=$pdo->prepare("SELECT idtitre, titre, datetitre FROM ttitres WHERE idtitre='".$idtitre."' ");
-	// $requete->execute();
-	// while ($donnees = $requete->fetch())
-	// {
-		// echo 'Le titre <strong>'.$donnees['titre'].'</strong> a été modifié</br>';
-	// }
-	$titre=$_GET['titre'];
-	$modiftitre=$_GET['modiftitre'];
-	echo 'Le titre <strong>'.$_GET['titre'].'</strong> a été modifié en <strong>'.$_GET['modiftitre'].'</strong>.</br> Cliquez sur <a href="index.php">Accueil</a> pour enlever ce message';
-}
-// appel des fonctions ajoutertitre
-if (isset($_GET['ajoutertitre_m']))
-	{
-		ajoutertitre_v();
-	}
-if (isset($_GET['ajoutertitre_c']))
-	{
-		ajoutertitre_c();
-	}
-// affichage du compteur et du copyright
-echo "<center><p>Copyright &copy; 2014-" . date("Y") . "  Tanguy iepsm.be</p>";
-echo 'Page vue '.readfile(PAGE.'.txt').' fois.</center>';
-?>
+</script>
+<!-- source du script: http://www.webdeveloper.com/forum/showthread.php?273153-change-the-page-content-by-clicking-on-menu-option#top -->
+    <!-- Le pied de page -->
+    
+    <footer id="pied_de_page">
+	
+    </footer>
+</body>
+</html>
+<?php  ?>

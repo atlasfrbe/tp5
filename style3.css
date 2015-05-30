@@ -1,0 +1,32 @@
+body
+{
+    background: #fff none repeat scroll 0 0;
+    color: #777;
+    font-family: Helvetica,Arial,sans-serif;
+    font-size: 1em;
+    margin: 30px auto;
+    width: 900px;
+}
+li
+{
+	display: inline;
+    list-style: none;	/* pour enlever les puces sur IE7 */
+	margin: 10px;
+}
+li a /* style pour la liste du menu */
+{
+    background: #999 none repeat scroll 0 0;
+    border-radius: 15px;
+    color: #fff;
+    display: inline-block;
+    font-weight: bold;
+    padding: 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    text-shadow: -1px -1px 0 #888;
+    width: 100px;
+}
+#menu
+{
+text-align: center;	/* centre le menu déroulant */
+}

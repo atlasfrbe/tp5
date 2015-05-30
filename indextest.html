@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<!-- tp5 de Tanguy -->
+<head>
+<meta charset="utf-8"/>
+<link rel="stylesheet" type="text/css" href="style.css" />
+<title>tp5 de Tanguy</title>
+<!-- include jquery reference in your head -->
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.2/jquery.min.js"></script>
+</head>
+<body>
+
+
+<body>
+<script type="text/javascript">
+   function changeDiv(link)
+   {
+      var contentDiv = $('#content');
+      if (link == '1')
+         contentDiv.html('<span style="color:red;">Link 1</span>');
+      if (link == '2')
+         contentDiv.html('<span style="color:red;">Link 2</span>');
+
+   }
+</script>
+<div id="menu">
+    <ul class="menu-item"><a id="link1" onclick="changeDiv('1')">home1</a></ul>
+    <ul class="menu-item"><a id="link2" onclick="changeDiv('2')">home2</a></ul>
+    <ul class="menu-item"><a id="link3" onclick="changeDiv('3')">home3</a></ul>
+</div>
+<div id="content">
+
+</div>
+</body>
+<!-- tp5 de Tanguy -->
+</html

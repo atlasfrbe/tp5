@@ -1,0 +1,500 @@
+/* paramêtres de mise en forme */
+body
+{
+/* background: rgb(149,149,149); /* ancien navigateur */
+/* background: -moz-linear-gradient(top,  rgba(149,149,149,1) 0%, rgba(13,13,13,1) 46%, rgba(1,1,1,1) 50%, rgba(10,10,10,1) 53%, rgba(78,78,78,1) 76%, rgba(56,56,56,1) 87%, rgba(27,27,27,1) 100%); /* FF3.6+ */
+/* background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(149,149,149,1)), color-stop(46%,rgba(13,13,13,1)), color-stop(50%,rgba(1,1,1,1)), color-stop(53%,rgba(10,10,10,1)), color-stop(76%,rgba(78,78,78,1)), color-stop(87%,rgba(56,56,56,1)), color-stop(100%,rgba(27,27,27,1))); /* Chrome,Safari4+ */
+/* background: -webkit-linear-gradient(top,  rgba(149,149,149,1) 0%,rgba(13,13,13,1) 46%,rgba(1,1,1,1) 50%,rgba(10,10,10,1) 53%,rgba(78,78,78,1) 76%,rgba(56,56,56,1) 87%,rgba(27,27,27,1) 100%); /* Chrome10+,Safari5.1+ */
+/* background: -o-linear-gradient(top,  rgba(149,149,149,1) 0%,rgba(13,13,13,1) 46%,rgba(1,1,1,1) 50%,rgba(10,10,10,1) 53%,rgba(78,78,78,1) 76%,rgba(56,56,56,1) 87%,rgba(27,27,27,1) 100%); /* Opera 11.10+ */
+/* background: -ms-linear-gradient(top,  rgba(149,149,149,1) 0%,rgba(13,13,13,1) 46%,rgba(1,1,1,1) 50%,rgba(10,10,10,1) 53%,rgba(78,78,78,1) 76%,rgba(56,56,56,1) 87%,rgba(27,27,27,1) 100%); /* IE10+ */
+/* background: linear-gradient(to bottom,  rgba(149,149,149,1) 0%,rgba(13,13,13,1) 46%,rgba(1,1,1,1) 50%,rgba(10,10,10,1) 53%,rgba(78,78,78,1) 76%,rgba(56,56,56,1) 87%,rgba(27,27,27,1) 100%); /* W3C */
+/* filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#959595', endColorstr='#1b1b1b',GradientType=0 ); /* IE6-9 */
+/* color:#C0C0C0;
+height: auto; 
+min-height: 100%; */
+
+/* coloration arc en ciel du fond d ecran : */
+background: 
+radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.15) 30%, rgba(255,255,255,.3) 32%, rgba(255,255,255,0) 33%) 0 0,
+radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.1) 11%, rgba(255,255,255,.3) 13%, rgba(255,255,255,0) 14%) 0 0,
+radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.2) 17%, rgba(255,255,255,.43) 19%, rgba(255,255,255,0) 20%) 0 110px,
+radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.2) 11%, rgba(255,255,255,.4) 13%, rgba(255,255,255,0) 14%) -130px -170px,
+radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.2) 11%, rgba(255,255,255,.4) 13%, rgba(255,255,255,0) 14%) 130px 370px,
+radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.1) 11%, rgba(255,255,255,.2) 13%, rgba(255,255,255,0) 14%) 0 0,
+linear-gradient(45deg, #343702 0%, #184500 20%, #187546 30%, #006782 40%, #0b1284 50%, #760ea1 60%, #83096e 70%, #840b2a 80%, #b13e12 90%, #e27412 100%);
+background-size: 470px 470px, 970px 970px, 410px 410px, 610px 610px, 530px 530px, 730px 730px, 100% 100%;
+background-color: #840b2a;
+/* pour Firefox 3.6+, Chrome, Safari 5.1, Opera 11.10+ and IE10+, source: http://lea.verou.me/css3patterns/#rainbow-bokeh */
+}
+
+#imagefond
+{
+background-image:url(images/fondecran.jpg);	/* ajoute une image de fond d ecran */
+width: 100%;				/* défini la largeur de l'image de fond */
+    height: auto; 			/* défini la hauteur de l'image de fond */
+    min-height: 100%;	/* défini la hauteur minimale de l'image de fond */
+position: absolute;	/* positionnement absolu: il nous permet de placer un élément n'importe où sur la page (en haut à gauche, en bas à droite, tout au centre, etc.). */
+/* plus d'info là: http://openclassrooms.com/courses/apprenez-a-creer-votre-site-web-avec-html5-et-css3/le-positionnement-en-css */
+left:0%;						/* position par rapport à la gauche de la page */
+top: 20px;					/* position par rapport au haut de la page */
+border-radius:7px;		/* arrondi les coins d'un <div>, apercu possible là: http://border-radius.com/ */
+z-index: 2;					/* indique quel élément doit apparaître au-dessus des autres */
+background-position: center center;	/* position en X et Y de l'image de fond */
+background-repeat: no-repeat;			/* permet qu'une seule instance de l'image */
+display: block-inline;
+/* plus d'info là: http://www.alsacreations.com/article/lire/1209-display-inline-block.html */
+background-size: cover; 
+-moz-background-size: 100% 100%;		/* Gecko 1.9.2 (Firefox 3.6) */
+-webkit-background-size: 100% 100%;	/* Safari 3.0 */
+background-size: 100% 100%;				/* Gecko 2.0 (Firefox 4.0) > CSS3 */
+margin-top:-2%;
+z-index:1;		/* indique quel élément doit apparaître au-dessus des autres */
+}
+
+#bandeau
+{
+background-image:url(image/bandeau1.jpg);
+width: auto;
+min-width: 100%;
+height: auto; 
+min-height: 80%;
+position: absolute;
+left:0%;
+border-radius:8px;									/*arrondi les coins de 8px*/
+background-position: center center;
+background-repeat: no-repeat; 
+display: block;
+background-size: cover;							/*arrière-plan extensible intelligent*/
+-moz-background-size: 100% 100%;		/* Gecko 1.9.2 (Firefox 3.6) */
+-webkit-background-size: 100% 100%;	/* Safari 3.0 */
+background-size: 100% 100%;				/* Gecko 2.0 (Firefox 4.0) > CSS3 */
+margin-top:140px;									/* décale la marge de 140 pixel du haut */
+z-index:1;
+}
+
+#menuDeroulant
+{
+text-align: center;	/* centre le menu déroulant */
+}
+
+#titre
+{
+text-align: center;
+top: -10px;
+display: block;
+color: #C0C0C0;
+position: relative;
+font-family:impact;
+padding-top: 10px;
+text-shadow: #000000 5px 10px, #000000 -1px 1px, #B82010 -1px -1px, #000000 1px -1px;
+font-size: 45px;
+z-index:2;
+}
+
+h1
+{
+color:#B82010;
+font-size: 32px;
+font-family: impact;
+text-shadow: #000000 1px 1px, #000000 -1px 1px, #C0C0C0 -1px -1px, #000000 1px -1px;
+}
+
+b
+{
+color:#B82010;
+font-weight: bold; 
+font-size: 22px;
+text-shadow: #000000 1px 1px, #000000 -1px 1px, #C0C0C0 -1px -1px, #000000 1px -1px;
+}
+
+#logo1{
+top:0%;
+left:0%;
+display:inline-block;
+position: absolute;
+z-index:3;
+}
+
+#logo2{
+top:0%;
+right:0%;
+display:inline-block;
+position: absolute;
+z-index:4;
+}
+
+section
+{
+position: relative;
+font-family: verdana;
+font-weight: bold; 
+font-size: 16px;
+text-shadow: #000000 1px 1px, #000000 -1px 1px, #000000 -1px -1px, #000000 1px -1px;
+width:85%;
+float:left;
+display: inline-block;
+color: #FFFFFF;
+padding-bottom: 120px;
+}
+
+article
+{
+position: relative;
+width:99%;
+color: #FFFFFF;
+font-family: verdana;
+font-weight: bold;
+display:inline-block;
+font-size: 18px;
+padding-top: 50px;
+}
+
+aside
+{
+position: relative;
+width:15%;
+float:right;
+display: inline-block;
+right: 60px;
+padding-top: 50px;
+padding-bottom: 150px;
+}
+
+footer 
+{
+height: 70px;
+position: relative;
+bottom: 0;
+display: inline-block;
+width: 100%;
+z-index: 1;
+}
+
+#footerindex
+{
+ height: 70px;
+position: fixed;
+bottom: 0;
+display: inline-block;
+width: 100%;
+z-index: 1;
+}
+#piedpage {
+  padding: 0; margin: 0;
+  text-align: center; /* centrer le texte */
+  padding-top: 10px;
+}
+#piedpage li {
+  display: inline;
+  list-style: none; /* nécessaire pour IE7 */
+}
+#piedpage a {
+  display:inline-block;
+  margin: 0 30px;
+}
+#piedpage a:hover /* Apparence au survol des liens */
+{
+   text-decoration: underline;
+   color: #C0C0C0;
+}
+#piedpage a:link /* Apparence des liens active */
+{
+   text-decoration: underline;
+   color: yellow;
+}
+#menu a 
+{ 
+display:block; 
+color: white;
+font-weight: bold; 
+text-decoration:none;
+text-align:center;
+font-family: verdana;
+font-size: 20px;
+font-style: oblique;
+}
+
+#menu > li,
+#menu > li li {
+
+	position: relative;
+	display:inline-block;
+	width: 250px;
+	padding: 6px 15px;
+	background-color: #777;
+	background-image: linear-gradient(black, red,#FFFF00);
+}
+#menu > li li { background: transparent none; }
+#menu > li li a { color: white; font-family:verdana ;font-weight: bold;}
+#menu > li li:hover { background:#FF0000; }
+#menu > li:first-child {
+	border-right: 1px solid #FFFF00;/*bordure en segment continue*/
+	border-radius: 8px 0 0 8px;
+	box-shadow: 3px 3px 3px #FFFF00;
+}
+#menu > li + li {
+	border-left: 1px solid #FFFF00;
+	border-right: 1px solid #FFFF00;
+	box-shadow: 3px 3px 3px #FFFF00;
+}
+#menu > li:last-child {
+	border-right:0;
+	border-left: 1px solid #FFFF00;
+	border-radius: 0 8px 8px 0 ;
+	box-shadow: 3px 3px 3px #FFFF00;
+}
+#menu > li:hover {
+	background-color: #FFFF00;
+	background-image: linear-gradient(#FFFF00, red,black);/*dégradé lineaire*/
+}
+
+/* dans cette déclaration, on fixe le max-height */
+#menu ul {
+	position: absolute;
+	top: 2em; left:0;
+	max-height:0em;	
+	margin:0; padding:0;
+	background-color:#ddd;
+	background-image: linear-gradient(black, red,#FFFF00);
+	overflow:hidden;
+	transition: 1s max-height 0.3s;
+	border-radius: 0 0 8px 8px;
+	z-index:10;
+	text-align: center;
+	
+
+}
+/* ici on change la valeur de max-height au :hover */
+#menu > li:hover ul {
+	
+	max-height:13em;
+}
+
+@-webkit-keyframes AutoSlide {
+0%, 4%, 100%{
+        left: 0px; /*1ère image*/
+    }
+    8%, 12%{
+        left: -1024px; /*2ème image*/
+    }
+    16%, 20%{
+        left: -2048px; /*3ème image*/
+    }
+    24%, 28% {
+        left: -3072px; 
+    }
+     32%, 36% {
+        left: -4096px; 
+    }
+   40%, 44% {
+        left: -5120px; 
+    }
+   48%, 52% {
+        left: -6144px;
+    }
+   56%, 60% {
+        left: -7168px; 
+    }
+  
+   64%, 68% {
+        left: -8192px; 
+    }
+  
+   72%, 76% {
+        left: -9216px; 
+    }
+  
+   80%, 84% {
+        left: -10240px; 
+    }
+  
+   88%, 99% {
+        left: -11264px; 
+    }
+}
+
+@-moz-keyframes AutoSlide{
+  0%, 4%, 100%{
+        left: 0px; /*1ère image*/
+    }
+    8%, 12%{
+        left: -1024px; /*2ème image*/
+    }
+    16%, 20%{
+        left: -2048px; /*3ème image*/
+    }
+    24%, 28% {
+        left: -3072px; 
+    }
+     32%, 36% {
+        left: -4096px; 
+    }
+   40%, 44% {
+        left: -5120px; 
+    }
+   48%, 52% {
+        left: -6144px;
+    }
+   56%, 60% {
+        left: -7168px; 
+    }
+  
+   64%, 68% {
+        left: -8192px; 
+    }
+  
+   72%, 76% {
+        left: -9216px; 
+    }
+  
+   80%, 84% {
+        left: -10240px; 
+    }
+  
+   88%, 99% {
+        left: -11264px; 
+    }
+}
+@keyframes AutoSlide {
+    0%, 4%, 100%{
+        left: 0px; /*1ère image*/
+    }
+    8%, 12%{
+        left: -1024px; /*2ème image*/
+    }
+    16%, 20%{
+        left: -2048px; /*3ème image*/
+    }
+	  24%, 28% {
+        left: -3072px; 
+    }
+	   32%, 36% {
+        left: -4096px; 
+    }
+	 40%, 44% {
+        left: -5120px; 
+    }
+	 48%, 52% {
+        left: -6144px;
+    }
+	 56%, 60% {
+        left: -7168px; 
+    }
+	
+	 64%, 68% {
+        left: -8192px; 
+    }
+	
+	 72%, 76% {
+        left: -9216px; 
+    }
+	
+	 80%, 84% {
+        left: -10240px; 
+    }
+	
+	 88%, 99% {
+        left: -11264px; 
+    }
+}
+
+#slideshow {
+    position: relative;
+    width: 1024px;
+    height: 576px;
+    margin:  10px auto;
+    overflow: hidden;
+	border-radius: 5px;
+	z-index:2;
+	background-position: center center;
+}
+#sContent li {
+    display: inline-block;
+	
+}
+
+#sContent {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 12288px;/*multiplié le nombre d image par le nombre de pixel par image*/
+    margin: 0;            
+    padding: 0;
+    
+    /*CSS3 webkit keyframes animation*/
+    -webkit-animation-name: AutoSlide;
+    -webkit-animation-duration: 60s;
+    -webkit-animation-iteration-count: infinite;
+    -webkit-animation-timing-function: ease-in-out;
+    
+    /*CSS3 moz keyframes animation*/
+    -moz-animation-name: AutoSlide;
+    -moz-animation-duration: 60s;
+    -moz-animation-iteration-count: infinite;
+    -moz-animation-timing-function: ease-in-out;
+    
+    /*CSS3 W3C keyframes animation*/
+    animation-name: AutoSlide;
+    animation-duration: 60s;
+    animation-iteration-count: infinite;
+    animation-timing-function: ease-in-out;
+}
+
+#menu-accordeon {
+position: absolute;
+  margin:0;
+  list-style:none;
+  text-align: center;
+  width: 200px;
+}
+#menu-accordeon ul {
+  padding:0;
+  margin:0;
+  list-style:none;
+  text-align: center;
+  
+}
+#menu-accordeon li {
+   background-color:#FFFF00; 
+   background-image:-webkit-linear-gradient(top, #729EBF 0%, #333A40 100%);
+   background-image: linear-gradient(to bottom, black 0%, red 100%);
+   border-radius: 6px;
+   margin-bottom:0px;
+   box-shadow: 3px 3px 3px #FFFF00;
+   border:solid 1px #FF0000;
+}
+#menu-accordeon li li {
+   max-height:0;
+   overflow: hidden;
+   transition: all .5s;
+   border-radius:0;
+   background: #000000;
+   box-shadow: none;
+   border:1;
+   margin:1;
+}
+#menu-accordeon a {
+  display:block;
+  text-decoration: none;
+  color: #fff;
+  padding: 8px 0;
+  font-family: verdana, impact, arial;
+  font-size:1.2em;
+ font-weight: bold;
+}
+#menu-accordeon ul li a, #menu-accordeon li:hover li a {
+  font-size:1em
+}
+#menu-accordeon li:hover {
+   background: #000000
+}
+#menu-accordeon li li:hover {
+   background: #FF0000;
+}
+#menu-accordeon ul li:last-child {
+   border-radius: 0 0 6px 6px;
+   border:none;
+}
+#menu-accordeon li:hover li {
+  max-height: 15em;
+}
