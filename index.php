@@ -1,3 +1,8 @@
+<?php
+session_start();
+include ('class/user.class.php');
+?>
+
 <!DOCTYPE HTML>
 <html>
 <head>

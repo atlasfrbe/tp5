@@ -7,7 +7,6 @@ $requete=$pdo->prepare('SELECT idpersonne, nom, prenom, telephone, gsm FROM tper
 $requete->execute();
 
 echo '<body bgcolor="#FFFF66">'; // change la couleur du fond d'écran
-// echo '<a href="index.html"><h1>Accueil</h1></a></p>';
 
 // table à afficher
 echo '<center><table border="1">';
@@ -16,14 +15,10 @@ while ($donnees = $requete->fetch())
 {
 	echo '<tr><td>'.$donnees['nom'].'</td> <td>'.$donnees['prenom'].'</td>';
 	echo '<td>'.$donnees['telephone'].'</td> <td>'.$donnees['gsm'].'</td>';
-	echo '<td><a href="indextitre.php?modifiertitre_m&idtitre='.$donnees['idpersonne'].'&titre='.$donnees['nom'].'"onclick="return (confirm(\'Etes-vous sur de vouloir modifier ce titre\'))"><img src="images/Modifier42x48.png" alt= "Modif"></a></td>';
-	echo '<td><a href="indextitre.php?supprimertitre&amp;idtitre='.$donnees['idpersonne'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer ce titre\'))"><img src="images/supprimer45x45.png" alt= "supprimer"></a></td></tr>';	
-	// echo '<td><a href="indextitre.php?supprimertitre&amp;idtitre='.$donnees['idtitre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer ce titre\'))">Suppr</a></td></tr>';
-	// <a href="http://ton lien"><img src="ton image.gif" alt= "nom de ton image"></a>
-	// <a href="http://www.adressedetonsite.com" title="adresse de ton site.com"><img src="http://www.adressedetonsite.com/tonimage.jpg" alt="tonimage" border="0"></a> 
+	echo '<td><a href="indexpersonne.php?modifierpersonne_m&idpersonne='.$donnees['idpersonne'].'&personne='.$donnees['nom'].'"onclick="return (confirm(\'Etes-vous sur de vouloir modifier cette personne\'))"><img src="images/Modifier42x48.png" alt= "Modif"></a></td>';
+	echo '<td><a href="indexpersonne.php?supprimerpersonne&amp;idpersonne='.$donnees['idpersonne'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer cette personne\'))"><img src="images/supprimer45x45.png" alt= "supprimer"></a></td></tr>';	
 }
 echo '</table>';
-// echo '<a href="ajoutTitre.php">Ajouter un titre via une autre page</a></br>';
 echo '<a href="indexpersonne.php?ajouterpersonne_m">Ajouter une personne</a></center>';
 
 $requete->closeCursor();
