@@ -1,38 +1,192 @@
+/* Cascade Style Sheet niveau 3 de Tanguy FILLETTE - Tous droits réservés */
+*
+{
+    margin: 0;
+    padding: 0;
+}
+html
+{
+    background-color: #fff;
+    height: 100%;
+}
 body
 {
-/* coloration arc en ciel du fond d ecran : */
-background: 
-radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.15) 30%, rgba(255,255,255,.3) 32%, rgba(255,255,255,0) 33%) 0 0,
-radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.1) 11%, rgba(255,255,255,.3) 13%, rgba(255,255,255,0) 14%) 0 0,
-radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.2) 17%, rgba(255,255,255,.43) 19%, rgba(255,255,255,0) 20%) 0 110px,
-radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.2) 11%, rgba(255,255,255,.4) 13%, rgba(255,255,255,0) 14%) -130px -170px,
-radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.2) 11%, rgba(255,255,255,.4) 13%, rgba(255,255,255,0) 14%) 130px 370px,
-radial-gradient(rgba(255,255,255,0) 0, rgba(255,255,255,.1) 11%, rgba(255,255,255,.2) 13%, rgba(255,255,255,0) 14%) 0 0,
-linear-gradient(45deg, #343702 0%, #184500 20%, #187546 30%, #006782 40%, #0b1284 50%, #760ea1 60%, #83096e 70%, #840b2a 80%, #b13e12 90%, #e27412 100%);
-background-size: 470px 470px, 970px 970px, 410px 410px, 610px 610px, 530px 530px, 730px 730px, 100% 100%;
-background-color: #840b2a;
-/* pour Firefox 3.6+, Chrome, Safari 5.1, Opera 11.10+ and IE10+, source: http://lea.verou.me/css3patterns/#rainbow-bokeh */
+    /* ajoute une image de fond d ecran: */
+	background-image: url("images/eau.jpg"); /* chemin relatif par rapport au fichier CSS */
+	background-repeat: repeat ;
+	background-position: right top;
+	background-attachment: fixed;
+	color: #333333;						/* 333333: gris foncé */
+    font: 0.75em/1.5em Arial,sans-serif;	/* défini la taille de la police de caractères en cadratin (em) */
+	/* plus d infos là: http://www.alsacreations.com/article/lire/563-gerer-la-taille-du-texte-avec-les-em.html */
 }
-.menu {
-  position:absolute;
-  top:80px;  left:0px;
-  font-family: Arial;
-  font-size:12px;
-  font-weight:bold;
+.header
+{
+	background-color: #e0ffff;			/* bleu trés clair */
+	margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    width: 96%;
 }
-#nav { width:920px;  height:30px;  background-color:#B1B3A8; }
-#nav ul { margin:0px; padding:5px; }
-#nav ul li {
-  display:inline; 
-  height:30px; 
-  float:left; 
-  list-style:none;
-  margin-left:30px; 
-  position:relative;
-  color:#000;
+.containermenu
+{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    width: 96%;
 }
-#nav li a { text-decoration:none; color:#000000; }
-#nav li a:hover { text-decoration:underline; color:white; background-color:orange; font-size:1.5em; }
+.containercorps
+{
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 100px;
+    width: 96%;
+}
 
-.pg { display:none; }
-.h1 { text-align:center; font-size:2em; }
+#header
+{
+	text-align: center;		/* centre l entête */
+}
+.containerpieddepage
+{
+	text-align: center;		/* centre le pied de page */
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 30px;
+    width: 96%;
+}
+#nav span
+{
+    display: none;			/* masque l'élément */
+}
+#nav, #nav ul
+{
+    list-style: outside none none;		/* pour enlever les puces sur IE7 */
+    margin: 0;							/* pas de marge entre nav et ul */
+    padding: 0;							/* pas de marge entre ul et le contenu */
+}
+#nav
+{
+    background-color: #f5f5f5;			/* f5f5f5: blanc grisatre */
+    border-bottom: 5px solid #333333;	/* 333333: gris foncé */
+    float: left;						/* alignement sur la gauche */
+    margin-left: 1%;					/* à 1% du bord gauche */
+    margin-right: 1%;					/* à 1% du bord droit */
+    position: relative;					/* permet de décaler l'élément par rapport à sa position normale */
+    width: 98%;							/* largeur 98% de la page */
+}
+#nav ul.subs
+{
+    background-color: #ffffff;					/* ffffff: blanc */
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2); /*	rgba=Red Green Blue Alpha=Rouge Vert Bleu Opacité */
+    color: #333333;								/* 333333: gris foncé */
+    display: none;
+    left: 0;
+    padding: 2%;						/* marge intérieure */
+    position: absolute;					/* permet de placer un élément n'importe où sur la page */
+    top: 54px;
+    width: 96%;							/* largeur 98% de la page */
+}
+#nav > li
+{
+    border-bottom: 5px solid transparent;	/* épaisseur et style de la bordure */
+    float: left;
+    margin-bottom: -5px;					/* marge entre élément nav et élément li */
+    text-align: left;
+    transition: all 300ms ease-in-out 0s;	/* ease-in-out: le départ et la fin sont lents pour l'animation */
+}
+#nav li a
+{
+    display: block;
+    text-decoration: none;
+    transition: color 450ms ease-in-out 0s, background-color 450ms ease-in-out 0s; /* début et fin de transition lente */
+    white-space: normal;
+}
+#nav > li > a
+{
+    color: #333333;					/* 333333: gris foncé */
+    display: block;		/* la balise prend toute la largeur dispo et s'affiche avec un saut de ligne avant et après */
+	/* obligatoire car le a a un display: inline par défaut qui fait prendre uniquement la largeur dont elle a besoin, sans ajouter de saut de ligne. */
+    font-size: 1.3em;
+    line-height: 49px;
+    padding: 0 15px;				/* marge intérieure du contenu(texte) avec l'élément a */
+    text-transform: uppercase;		/* transforme le texte en MAJUSCULES */
+}
+#nav > li:hover > a, #nav > a:hover
+{
+    background-color: #f55856;		/* f55856: rouge pale */
+    color: #ffffff;					/* ffffff: blanc */
+}
+#nav li.active > a
+{
+    background-color: #333333;		/* 333333: gris foncé */
+    color: #ffffff;					/* ffffff: blanc */
+}
+#nav li:hover ul.subs
+{
+    display: block;		/* la balise prend toute la largeur dispo et s'affiche avec un saut de ligne avant et après */
+}
+#nav ul.subs > li
+{
+    display: inline-block;	/* Eléments positionnés les uns à côté des autres (comme les inlines) mais qui peuvent être redimensionnés (comme les blocs) */
+    float: none;
+    padding: 10px 1%;
+    vertical-align: top;
+    width: 33%;
+}
+#nav ul.subs > li a
+{
+    color: #777777;			/* 333333: gris clair */
+    line-height: 20px;
+}
+#nav ul li a:hover
+{
+    color: #f55856;		/* f55856: rouge pale */
+}
+#nav ul li a:visited
+{
+    color: #b5e655;		/* b5e655: vert pale */
+}
+#nav ul.subs > li > a
+{
+    font-size: 1.3em;
+    margin-bottom: 10px;
+    text-transform: uppercase;		/* transforme le texte en MAJUSCULES */
+}
+#nav ul.subs > li li
+{
+    float: none;
+    padding-left: 8px;
+    transition: padding 150ms ease-out 0s; /* animation avec padding(déplacement) */
+}
+#nav ul.subs > li li:hover
+{
+    padding-left: 15px;
+}
+@media all and (max-width: 800px)
+{
+	#nav > li
+	{
+		border-bottom: 0 none;
+		float: none;
+		margin-bottom: 0;
+	}
+	#nav ul.subs
+	{
+		position: relative;
+		top: 0;
+	}
+	#nav li:hover ul.subs
+	{
+		display: none;
+	}
+	#nav li #s1:target + ul.subs, #nav li #s2:target + ul.subs
+	{
+		display: block;
+	}
+	#nav ul.subs > li
+	{
+		display: block;
+		width: auto;
+	}
+}

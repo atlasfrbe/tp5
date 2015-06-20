@@ -108,7 +108,7 @@ else if (isset($_GET['donnees']))
 			$html.='</table>';
 			$html.='<h2>OU</h2>';
 			$html.='<form method="POST" action="index.php?addUser=record"><table>';
-			$html.='<tr><th colspan="2"></th>Ajout d\'un utilisateur</th></tr>';
+			$html.='<tr><th colspan="2"></th>Ajout d\'une personne</th></tr>';
 			$html.='<tr><th>Login :</th><td><input type="text" name="nom"></td></tr>';
 			$html.='<tr><th>Password :</th><td><input type="password" name="password"></td></tr>';
 			$html.='<tr><td colspan="2"><input type="submit" name="bValider" value="Valider"></td></tr>';

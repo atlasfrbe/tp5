@@ -21,10 +21,14 @@ fputs($monfichier, $nbaff);
 
 fclose($monfichier);
 
-echo '<center>la page a été affichée '.$nbaff.' fois.</center>';
+echo '<center>La page a été affichée '.$nbaff.' fois.</center>';
 //fin compteur
 
 // affichage du compteur et du copyright
-echo "<center><p>Copyright &copy; 2014-" . date("Y") . "  Tanguy iepsm.be</p><center>";
+echo '<font color="#ff0000">';		// met en rouge
+echo "<center><p><strong>Copyright &copy; 2014-" . date("Y") . " / Tous droits réservés à Tanguy FILLETTE: </strong>";
+echo '</font>';
+echo '<a href="mailto:uneadressecourriel@jenaimepaslespam.com">Me contacter !</a></p><center>';
+
 // echo '<center>Page vue '.readfile(PAGE.'.txt').' fois.</center>';
 ?>

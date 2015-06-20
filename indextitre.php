@@ -1,7 +1,7 @@
 <?php
 // fichiers prérequis
-require 'connexiontp5.php';
-require 'fonction.php';
+require 'connect/connexiontp5.php';
+require 'class/titre.class.php';
 
 $requete=$pdo->prepare('SELECT idtitre, titre, datetitre FROM ttitres ORDER BY titre');
 $requete->execute();

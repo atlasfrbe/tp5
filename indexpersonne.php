@@ -1,7 +1,7 @@
 <?php
 // fichiers prérequis
-require 'connexiontp5.php';
-require 'fonction.php';
+require 'connect/connexiontp5.php';
+require 'class/user.class.php';
 
 $requete=$pdo->prepare('SELECT idpersonne, nom, prenom, telephone, gsm FROM tpersonnes ORDER BY nom');
 $requete->execute();
