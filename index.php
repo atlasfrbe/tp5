@@ -2,7 +2,7 @@
 session_start();
 include ('connect/connexiontp5.php');
 include ('class/user.class.php');
-include ('class/titre.class.php');
+include ('class/title.class.php');
 // print_r($_SESSION);
 // echo '<br />';
 // echo md5('1234');
@@ -156,6 +156,8 @@ else if (isset($_GET['donnees']))
 			session_destroy();
 			header('Location: index.php?login');
 			break;
+		// ---------------------------------------------------------------------	
+		// action en fonction du TITRE	
 		case 'listetitre' :
 			$requete=$pdo->prepare('SELECT idtitre, titre, datetitre FROM ttitres ORDER BY titre');
 			$requete->execute();
@@ -165,63 +167,43 @@ else if (isset($_GET['donnees']))
 			{
 				$html.= '<tr><td>'.$donnees['titre'].'</td> <td>'.$donnees['datetitre'].'</td>';
 				$html.= '<td><a href="?donnees=modifiertitre&idtitre='.$donnees['idtitre'].'&titre='.$donnees['titre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir modifier ce titre\'))"><img src="images/Modifier42x48.png" alt= "Modif"></a></td>';
-				$html.= '<td><a href="index.php?supprimertitre&amp;idtitre='.$donnees['idtitre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer ce titre\'))"><img src="images/supprimer45x45.png" alt= "supprimer"></a></td></tr>';	
+				$html.= '<td><a href="index.php?supprimertitre&amp;idtitre='.$donnees['idtitre'].'&titre='.$donnees['titre'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer ce titre\'))"><img src="images/supprimer45x45.png" alt= "supprimer"></a></td></tr>';	
 			}
 			$html.= '</table>';
 			$html.= '<a href="?donnees=ajoutertitre">Ajouter un titre</a></center>';
 			$requete->closeCursor();	// ferme la requête au niveau du serveur mais permet de la rééxécuter
 			break;
 		case 'modifiertitre' :
-			// $idtitre=$_GET['idtitre'];
-			// $titre=$_GET['titre'];
 			if (isset($_GET['titre']))
 			{
 				$_SESSION['idtitre']=$_GET['idtitre'];
 				$_SESSION['titre']=$_GET['titre'];
-				// $html = '<center><form id="monform" name="form1" method="POST"  action="?donnees=modifiertitre_c">';
-				$html = '<center><form id="monform" name="form1" method="POST"  action="?donnees=modifiertitre">';
-				// $html.= '<label><input type="hidden" name="idtitre" value="'.$idtitre.'" /> </label>';
-				// $html.= '<label><input type="hidden" name="titre" value="'.$titre.'" /> </label>';
+				$html = '<center><form id="monformmodifiertitre" name="form1" method="POST"  action="?donnees=modifiertitre">';
 				$html.= '<label>Titre :	<input type="text" name="modiftitre" value="'.$_GET['titre'].'" size="60" colspan="2" autofocus /> </label>';
 				$html.= '<label><input type="submit" name="bModifierTitre" value="Modifier" /> </label>';
 				$html.= '<label><input type="submit" name="bAnnuler" value="Annuler"  /> </label> </form></center>';
 			}
-			
-			// break;
-		// case 'modifiertitre_c' :
 			if (isset($_POST['bModifierTitre']))
 			{
-				// $titre=$_SESSION['titre'];
-				// $_SESSION['modiftitre']=$_POST['modiftitre'];
-				// $idtitre=$_POST['idtitre']; // récupére le paramêtre passé en HIDDEN car raffraichissement de la page par le formulaire
 				$pdo->exec("UPDATE ttitres SET titre='".$_POST['modiftitre']."'WHERE idtitre='".$_SESSION['idtitre']."' ");
-				// $html2 = '<label><input type="hidden" name="idtitre" value="'.$_SESSION['idtitre'].'" /> </label>';
-				// $html2.= '<label><input type="hidden" name="titre" value="'.$_SESSION['titre'].'" /> </label>';
-				// $html2.= '<label><input type="hidden" name="modiftitre" value="'.$_SESSION['modiftitre'].'" /> </label>';
-				// echo $html2;
-				// header('Location: ?donnees=modifierfini&titre='.$titre.'&modiftitre='.$_SESSION['modiftitre'].'');
+				$html = '<center>Le titre <strong>'.$_SESSION['titre'].'</strong> a été modifié en <strong>'.$_POST['modiftitre'].'</strong>.</br>Cliquez sur <a href="index.php">ACCUEIL</a> pour enlever ce message</center>';
 			}
-			// break;
-		// case 'modifierfini' :
-			// au retour de la fonction modifiertitre_c :
-				// if (isset($_GET['modifierfini']))
-			if (isset($_POST['modiftitre']))
-				{
-					// $requete=$pdo->prepare("SELECT idtitre, titre, datetitre FROM ttitres WHERE idtitre='".$idtitre."' ");
-					// $requete->execute();
-					// while ($donnees = $requete->fetch())
-					// {
-						// echo 'Le titre <strong>'.$donnees['titre'].'</strong> a été modifié</br>';
-					// }
-					// $titre=$_GET['titre'];
-					// $modiftitre=$_GET['modiftitre'];
-					// echo 'Le titre <strong>'.$_GET['titre'].'</strong> a été modifié en <strong>'.$_GET['modiftitre'].'</strong>.</br><center>Cliquez sur <a href="indextitre.php">ICI</a> pour enlever ce message<center>';
-					$html = '<center>Le titre <strong>'.$_SESSION['titre'].'</strong> a été modifié en <strong>'.$_POST['modiftitre'].'</strong>.</br>Cliquez sur <a href="index.php">ACCUEIL</a> pour enlever ce message</center>';
-				}
 			break;
 		case 'ajoutertitre' :
-			$_SESSION['idtitre']=$idtitre;
-			modifiertitre_v($donnees['idtitre']);
+			$html = '<center><form id="monformajoutertitre" name="formajoutertitre" method="POST"  action="?donnees=ajoutertitre">';
+			$html.= '<label>Titre :	<input type="text" name="newtitre"  size="60" colspan="2" autofocus /> </label>';
+			$html.= '<label><input type="submit" name="bAjouterTitre" value="Ajouter" /> </label>';
+			$html.= '<label><input type="submit" name="bAnnuler" value="Annuler"  /> </label> </form></center>';
+			if (isset($_POST['bAjouterTitre']))
+			{	
+				$requeteajouttitre=$pdo->prepare("INSERT INTO ttitres SET titre='".$_POST['newtitre']."',datetitre=now()");
+				$requeteajouttitre->execute();
+				header('Location: index.php?donnees=listetitre'); 
+			}
+			if (isset($_POST['bAnnuler']))
+				{
+				header('Location: index.php'); 
+				}
 			break;
 		}
 	}
@@ -233,26 +215,28 @@ else
 	// appel de la fonction supprimertitre
 	if (isset($_GET['supprimertitre']))
 		{
-			supprimertitre($donnees['idtitre']);
+			$title = NEW Title($pdo);
+			$data=$title->supprimertitre($_GET['idtitre']);
+			$html = 'La suppression a été correctement effectuée</br>';
+			$html.= 'Le titre <strong>'.$_GET['titre'].'</strong> a été supprimé</br>';
 		}
 	// au retour de la fonction supprimer:
-	if (isset($_GET['suppression']))
-	{
-		while ($donnees = $requete->fetch())
-		{
-			echo 'Le titre <strong>'.$donnees['titre'].'</strong> a été supprimé</br>';
-		}
-	}
-	
+	// if (isset($_GET['suppression']))
+	// {
+		// while ($donnees = $requete->fetch())
+		// {
+			// echo 'Le titre <strong>'.$donnees['titre'].'</strong> a été supprimé</br>';
+		// }
+	// }
 	// appel des fonctions ajoutertitre
-	if (isset($_GET['ajoutertitre_m']))
-		{
-			ajoutertitre_v();
-		}
-	if (isset($_GET['ajoutertitre_c']))
-		{
-			ajoutertitre_c();
-		}
+	// if (isset($_GET['ajoutertitre_m']))
+		// {
+			// ajoutertitre_v();
+		// }
+	// if (isset($_GET['ajoutertitre_c']))
+		// {
+			// ajoutertitre_c();
+		// }
 //****************************************************************************************	
 	
 if (isset($_SESSION['idUser']))		// on cache le menu si pas de session utilisateur
@@ -267,16 +251,15 @@ if (isset($_SESSION['idUser']))		// on cache le menu si pas de session utilisate
 				<li><a href="#s1">Titres</a>
                     <span id="s1"></span>
                     <ul class="subs">
-                        <li><a href="#">Liste des titres</a>
+                        <li><a href="?donnees=listetitre">Liste des titres</a>
                             <ul>
                                 <li><a href="?donnees=listetitre">afficher la liste des titres</a></li>
-                                <li><a href="mailto:atlasfrbe@gmail.com">Proposer un lien ici</a></li>
                             </ul>
                         </li>
                         <li><a href="#">gestion des titres</a>
                             <ul>
                                 <li><a href="?donnees=ajoutertitre">Ajouter un titre</a></li>
-                                <li><a href="mailto:atlasfrbe@gmail.com">Proposer un lien ici</a></li>
+                                <li><a href="?donnees=listetitre">Modifier  ou supprimer un titre</a></li>
                             </ul>
                         </li>
                     </ul>

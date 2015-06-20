@@ -1,5 +1,5 @@
 ﻿<?php
-class titre
+class Title
 {
 private $pdo;
 
@@ -7,19 +7,16 @@ public function __construct($dbPdo)
 	{
 	$this->pdo=$dbPdo;
 	}
-	
 
 public function supprimertitre($idtitre)
 {
-if (isset($_GET['supprimertitre']))
-	{
 		include ('connect/connexiontp5.php');
 		$idtitre=$_GET['idtitre'];
+		// $idtitre=$donnees['idtitre']
 		$pdo->exec("DELETE FROM ttitres WHERE idtitre=".$idtitre." ");
-		echo 'La suppression a été correctement effectuée</br>';
-		echo '<a href="indextitre.php?suppression">Actualiser la liste</a></br>';
-		header('Location: indextitre.php?suppressionfini'); 
-	}
+		// echo '<a href="index.php?suppression">Actualiser la liste</a></br>';
+		// header('Location: index.php?suppressionfini'); 
+
 }
 // ----------------------------------------------------------
 // public function modifiertitre_v($idtitre)
@@ -60,30 +57,26 @@ function modifiertitre_c($idtitre)
 	}
 }
 // -----------------------------------------------------------
-function ajoutertitre_v()
-{
-if (isset($_GET['ajoutertitre_m']))
-	{
-		include ('connect/connexiontp5.php');
-		$html = '<center><form id="monform" name="formajoutertitre" method="POST"  action="indextitre.php?ajoutertitre_c">';
-		$html.= '<label>Titre :	<input type="text" name="ajoutertitre"  size="60" colspan="2" autofocus /> </label>';
-		$html.= '<label><input type="submit" name="bEnregistrer" value="Ajouter" /> </label>';
-		$html.= '<label><input type="submit" name="bAnnuler" value="Annuler"  /> </label> </form></center>';
-		echo $html;
-	}
-}
-function ajoutertitre_c()
-{
-		include ('connect/connexiontp5.php');
-		if(isset($_POST['bEnregistrer']))
-		{	
-			$requeteajouttitre=$pdo->prepare("INSERT INTO ttitres SET titre='".$_POST['ajoutertitre']."',datetitre=now()");
-			$requeteajouttitre->execute();
-		}
-		header('Location: indextitre.php?ajoutfini'); 
-}
+// function ajoutertitre_v()
+// {
+	// include ('connect/connexiontp5.php');
+	// $html = '<center><form id="monform" name="formajoutertitre" method="POST"  action="indextitre.php?ajoutertitre_c">';
+	// $html.= '<label>Titre :	<input type="text" name="ajoutertitre"  size="60" colspan="2" autofocus /> </label>';
+	// $html.= '<label><input type="submit" name="bAjouterTitre" value="Ajouter" /> </label>';
+	// $html.= '<label><input type="submit" name="bAnnuler" value="Annuler"  /> </label> </form></center>';
+	// echo $html;
 
-
+// }
+// function ajoutertitre_c()
+// {
+	// include ('connect/connexiontp5.php');
+	// if(isset($_POST['bAjouterTitre']))
+	// {	
+		// $requeteajouttitre=$pdo->prepare("INSERT INTO ttitres SET titre='".$_POST['ajoutertitre']."',datetitre=now()");
+		// $requeteajouttitre->execute();
+	// }
+	// header('Location: indextitre.php?ajoutfini'); 
+// }
 }
 ?>
 
