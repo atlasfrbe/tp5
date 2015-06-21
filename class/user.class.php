@@ -26,8 +26,6 @@ public function nouvelUtilisateur($login,$password)
 		}
 	}
 	
-
-	
 private function checkDoublon($login)
 	{
 	$sql='SELECT COUNT(*) FROM tpersonnes WHERE login="'.$login.'"';
@@ -70,7 +68,7 @@ public function login($loginCtrl,$pwd)
 			{
 				$response='Vous êtes identifié. <br />';
 				// $response.='<a href="?donnees=modifier&idUser='.$idUser.'">Modifier mes données</a><br />';
-				// $response.='<a href="?donnees=afficheListe">Lister les utilisateurs</a><br />';
+				// $response.='<a href="?donnees=listepersonne">Lister les utilisateurs</a><br />';
 				// $response.='<a href="?donnees=deco">Se déconnecter</a><br />';
 				$_SESSION['idUser']=$idUser;	// création de la session utilisateur
 			}
@@ -129,7 +127,8 @@ public function recModifsUser($idpersonne,$login,$pwd,$nPwd,$nPwd2){
 }
 
 public function getUsers(){
-	$sql='SELECT idpersonne, login FROM tpersonnes';
+	// $sql='SELECT idpersonne, login FROM tpersonnes';
+	$sql='SELECT idpersonne, login, nom, prenom, telephone, gsm FROM tpersonnes ORDER BY nom';
 	return $this->pdo->query($sql);
 }
 

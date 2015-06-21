@@ -1,6 +1,6 @@
 <?php
 session_start();
-include ('connect/connexiontp5.php');
+require ('connect/connexiontp5.php');
 include ('class/user.class.php');
 include ('class/title.class.php');
 // print_r($_SESSION);
@@ -65,7 +65,7 @@ else if (isset($_GET['login']))	// si le login est encodé
 		}		
 	else if (!isset($_SESSION['idUser']))	// si pas de session utilisateur
 		{
-		$html='<center><form method="POST" name="formLogin" action="?login"><table>';
+		$html ='<center><form method="POST" name="formLogin" action="?login"><table>';
 		$html.='<tr><th>Login</th><td><input type="text" name="login"></td></tr>';
 		// pas d'autofocus pour ne pas aider les bots
 		$html.='<tr><th>Password</th><td><input type="password" name="pwd"></td></tr>';
@@ -74,7 +74,7 @@ else if (isset($_GET['login']))	// si le login est encodé
 		}
 	else
 		{
-		$html='<center>Vous êtes identifié.</center><br />';
+		$html ='<center>Vous êtes identifié.</center><br />';
 		$html.='<a href="?donnees=modifier&idUser='.$_SESSION['idUser'].'">Modifier mon mot de passe</a><br />';
 		// $html.='<a href="?donnees=afficheListe">Lister les utilisateurs</a><br />';	
 		// $html.='<a href="?donnees=deco">Se déconnecter</a><br />';
@@ -115,15 +115,25 @@ else if (isset($_GET['donnees']))
 					break;
 				}
 			break;
-		case 'afficheListe':
+		case 'listepersonne':
 			$i=0;
-			$html='<h3>Liste des utilisateurs</h3>';
-			$html.='<table>';
-			$html.='<tr><th>Login</th><th>Action</th></tr>';
-			$user=NEW User($pdo);
-			$data=$user->getUsers();
+			$html='<center><h3>Liste des utilisateurs</h3>';
+			// $html.='<table>';
+			// $html.='<tr><th>Login</th><th>Action</th></tr>';
+			$html.= '<table border="1" bgcolor="#FFFF66">';
+			$html.= '<tr><th>login</th> <th>Nom</th> <th>Prenom</th> <th>Telephone</th> <th>GSM</th> <th>Modif</th> <th>Suppr</th></tr>';
+			
+			$user=NEW User($pdo);		// instancie l'objet User avec $pdo (identifiants de la base de données)
+			$data=$user->getUsers();	// lance la fonction getUsers de l'objet ci dessus
 			while ($row=$data->fetch()){
-				$html.='<tr><td>'.$row['login'].'</td><td><a href="?donnees=modifUser&idUser='.$row['idpersonne'].'&num='.$i.'">Modifier</a></td></tr>';
+				$html.='<tr><td>'.$row['login'].'</td>';
+				$html.='<td>'.$row['nom'].'</td>';
+				$html.='<td>'.$row['prenom'].'</td>';
+				$html.='<td>'.$row['telephone'].'</td>';
+				$html.='<td>'.$row['gsm'].'</td>';
+				// $html.='<td><a href="?donnees=modifUser&idUser='.$row['idpersonne'].'&num='.$i.'">Modifier</a></td>';
+				$html.='<td><a href="?donnees=modifUser&idUser='.$row['idpersonne'].'&num='.$i.'"onclick="return (confirm(\'Etes-vous sur de vouloir modifier cette personne\'))"><img src="images/Modifier42x48.png" alt= "Modif"></a></td>';
+				$html.='<td><a href="index.php?supprimerpersonne&amp;idpersonne='.$row['idpersonne'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer cette personne\'))"><img src="images/supprimer45x45.png" alt= "supprimer"></a></td></tr>';
 				$i++;
 			}
 			$html.='</table>';
@@ -149,7 +159,7 @@ else if (isset($_GET['donnees']))
 			$user=NEW User($pdo);
 			$user->updateUser($_POST['idUser'], $_POST['login']);
 			$html='Modifications sauvegardées. <br />';
-			$html.='<a href="?donnees=afficheListe">Retour liste utilisateurs</a>';
+			$html.='<a href="?donnees=listepersonne">Retour liste utilisateurs</a>';
 			break;
 		case 'deco' :
 			unset ($_SESSION['idUser']);
@@ -269,7 +279,7 @@ if (isset($_SESSION['idUser']))		// on cache le menu si pas de session utilisate
                     <ul class="subs">
                         <li><a href="#">Liste des personnes</a>
                             <ul>
-                                <li><a href="indexpersonne.php">afficher la liste des personnes</a></li>
+                                <li><a href="?donnees=listepersonne">afficher la liste des personnes</a></li>
                                 <li><a href="#">Submenu y</a></li>
                             </ul>
                         </li>
@@ -323,6 +333,7 @@ if (isset($_SESSION['idUser']))		// on cache le menu si pas de session utilisate
 		</div>
 <?php
 }
+$html.='';
 echo $html;
 ?>		
         <div class="containerpieddepage">
