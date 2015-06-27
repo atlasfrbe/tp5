@@ -1,0 +1,22 @@
+Aide à la création des vues
+http://www.commentcamarche.net/contents/1071-sql-creation-de-vues
+
+modèle
+CREATE VIEW Vue
+(colonneA,colonneB,colonneC,colonneD)
+AS SELECT colonne1,colonne2,colonneI,colonneII
+FROM Nom_table1 Alias1,Nom_tableII AliasII
+WHERE Alias1.colonne1 = AliasII.colonneI
+AND Alias1.colonne2 = AliasII.colonneII
+
+
+CREATE VIEW v_titre_cat3 AS SELECT T.titre, C.categorie, S.typesupport (ici tu mets les propriétés a affichées) FROM titres T left join titreetcategorie TC on T.idtitres=TC.idtitres left join categories C on TC.idcategories=C.idcategories  left join titreetsupport TS on T.idtitres=TS.idtitres left join support S on TS.idsupport=S.idsupport
+
+
+
+CREATE VIEW Vue
+(idtitre,titre,duree,dateinscription,datesortie,idsupport,idcategorie,categorie,typesupport)
+AS SELECT colonne1,colonne2,colonneI,colonneII
+FROM Nom_table1 Alias1,Nom_tableII AliasII
+WHERE Alias1.colonne1 = AliasII.colonneI
+AND Alias1.colonne2 = AliasII.colonneII

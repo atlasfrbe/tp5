@@ -3,6 +3,7 @@ session_start();
 require ('connect/connexiontp5.php');
 include ('class/user.class.php');
 include ('class/title.class.php');
+include ('class/category.class.php');
 // print_r($_SESSION);
 // echo '<br />';
 // echo md5('1234');
@@ -34,7 +35,7 @@ function htm($data)
 		</div>
 	</header>
 <?php
-if (isset($_GET['addUser']))
+if (isset($_GET['addUser']))	// pour ajouter un login et un mot de passe de connexion
 	{
 	if ($_GET['addUser']=="oui")
 		{
@@ -63,8 +64,9 @@ else if (isset($_GET['login']))	// si le login est encodé
 		$user=new User($pdo);
 		$html=$user->login($_POST['login'],md5($_POST['pwd']));
 		}		
-	else if (!isset($_SESSION['idUser']))	// si pas de session utilisateur
+	else if (!isset($_SESSION['idpersonne']))	// si pas de session utilisateur
 		{
+		// formulaire de connexion	
 		$html ='<center><form method="POST" name="formLogin" action="?login"><table>';
 		$html.='<tr><th>Login</th><td><input type="text" name="login"></td></tr>';
 		// pas d'autofocus pour ne pas aider les bots
@@ -75,9 +77,7 @@ else if (isset($_GET['login']))	// si le login est encodé
 	else
 		{
 		$html ='<center>Vous êtes identifié.</center><br />';
-		$html.='<a href="?donnees=modifier&idUser='.$_SESSION['idUser'].'">Modifier mon mot de passe</a><br />';
-		// $html.='<a href="?donnees=afficheListe">Lister les utilisateurs</a><br />';	
-		// $html.='<a href="?donnees=deco">Se déconnecter</a><br />';
+		$html.='<a href="?donnees=modifier&idpersonne='.$_SESSION['idpersonne'].'">Modifier mon mot de passe</a><br />';
 		}
 	}
 
@@ -86,21 +86,24 @@ else if (isset($_GET['donnees']))
 	$action=$_GET['donnees'];
 	switch ($action)
 		{
-		case 'modifier':
+		case 'modifier':	//	tableau pour modifier son mot de passe
 			$user = NEW User($pdo);
-			$data=$user->getInfoUserById($_GET['idUser']);
-			$html='<form method="POST" name="formModifUser" action="?donnees=recModifs&idUser='.$_GET['idUser'].'"><table>';
+			$data=$user->getInfoUserById($_GET['idpersonne']);
+			$html='<form method="POST" name="formModifUser" action="?donnees=recModifs&idpersonne='.$_SESSION['idpersonne'].'"><table>';
 			$html.='<tr><th>Login</th><th>Ancien mot de passe</th><th>Nouveau mot de passe</th><th>Nouveau mot de passe (vérif.)</th></tr>';
 			while ($row=$data->fetch())
 				{
-				$html.='<tr><td><input type="text" name="login" value="'.$row['login'].'"></td><td><input type="password" name="oldPwd"></td><td><input type="password" name="newPwd"></td><td><input type="password" name="newPwd2"></td>';
+				$html.='<tr><td><input type="text" name="login" value="'.$row['login'].'"></td>';
+				$html.='<td><input type="password" name="oldPwd"></td>';
+				$html.='<td><input type="password" name="newPwd"></td>';
+				$html.='<td><input type="password" name="newPwd2"></td></tr>';
 				}
 			$html.='<tr><td colspan="4"><input type="submit" value="Modifier"></td></tr>';
 			$html.='</table></form>';
 			break;
-		case 'recModifs':
+		case 'recModifs':	//	modification de son mot de passe et erreur rapportée le cas échéant
 			$user = NEW User($pdo);
-			$data=$user->recModifsUser($_GET['idUser'], $_POST['login'], md5($_POST['oldPwd']), $_POST['newPwd'], $_POST['newPwd2']);
+			$data=$user->recModifsUser($_GET['idpersonne'], $_POST['login'], md5($_POST['oldPwd']), $_POST['newPwd'], $_POST['newPwd2']);
 			switch($data)
 				{
 				case 1 :
@@ -132,8 +135,8 @@ else if (isset($_GET['donnees']))
 				$html.='<td>'.$row['telephone'].'</td>';
 				$html.='<td>'.$row['gsm'].'</td>';
 				// $html.='<td><a href="?donnees=modifUser&idUser='.$row['idpersonne'].'&num='.$i.'">Modifier</a></td>';
-				$html.='<td><a href="?donnees=modifUser&idUser='.$row['idpersonne'].'&num='.$i.'"onclick="return (confirm(\'Etes-vous sur de vouloir modifier cette personne\'))"><img src="images/Modifier42x48.png" alt= "Modif"></a></td>';
-				$html.='<td><a href="index.php?supprimerpersonne&amp;idpersonne='.$row['idpersonne'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer cette personne\'))"><img src="images/supprimer45x45.png" alt= "supprimer"></a></td></tr>';
+				$html.='<td><a href="?donnees=modifUser&idpersonne='.$row['idpersonne'].'&num='.$i.'"onclick="return (confirm(\'Etes-vous sur de vouloir modifier cette personne\'))"><img src="images/Modifier42x48.png" alt= "Modif"></a></td>';
+				$html.='<td><a href="?supprimerpersonne&idpersonne='.$row['idpersonne'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer cette personne\'))"><img src="images/supprimer45x45.png" alt= "supprimer"></a></td></tr>';
 				$i++;
 			}
 			$html.='</table>';
@@ -148,21 +151,34 @@ else if (isset($_GET['donnees']))
 		case 'modifUser':
 			$html='<h2>Modification d\'un utilisateur</h2>';
 			$user = NEW User($pdo);
-			$data=$user->getUserFromId($_GET['idUser']);
-			$html.='<form method="POST" name="fModifUser" action="?donnees=afficheModifUser"><table>';
+			$data=$user->getUserFromId($_GET['idpersonne']);
+			$html.='<form method="POST" name="fModifUser" action="?donnees=afficheModifUser">';
+			$html.='<table border="1" bgcolor="#FFFF66">';
+			$html.='<tr><th>login</th> <th>Nom</th> <th>Prenom</th> <th>Telephone</th> <th>GSM</th></tr>';
 			while($row=$data->fetch()){
-				$html.='<tr><td><input type="text" name="login" value="'.$row['login'].'"></td><td><input type="submit" value="Enregistrer"><input type="hidden" name="idUser" value="'.$row['idpersonne'].'"></td></tr>';
+				$html.='<tr><td><input type="text" name="login" value="'.$row['login'].'"></td>';
+				$html.='<td><input type="text" name="nom" value="'.$row['nom'].'"></td>';
+				$html.='<td><input type="text" name="nom" value="'.$row['prenom'].'"></td>';
+				$html.='<td><input type="text" name="nom" value="'.$row['telephone'].'"></td>';
+				$html.='<td><input type="text" name="nom" value="'.$row['gsm'].'"></td>';
+				$html.='<td><input type="submit" value="Enregistrer">';
+				$html.='<input type="hidden" name="login" value="'.$row['login'].'">';
+				$html.='<input type="hidden" name="nom" value="'.$row['nom'].'">';
+				$html.='<input type="hidden" name="prenom" value="'.$row['prenom'].'">';
+				$html.='<input type="hidden" name="telephone" value="'.$row['telephone'].'">';
+				$html.='<input type="hidden" name="gsm" value="'.$row['gsm'].'">';
+				$html.='<input type="hidden" name="idpersonne" value="'.$row['idpersonne'].'"></td></tr>';
 			}
 			$html.='</table></form>';
 			break;
 		case 'afficheModifUser' :
 			$user=NEW User($pdo);
-			$user->updateUser($_POST['idUser'], $_POST['login']);
+			$user->updateUser($_POST['idpersonne'], $_POST['login']);
 			$html='Modifications sauvegardées. <br />';
 			$html.='<a href="?donnees=listepersonne">Retour liste utilisateurs</a>';
 			break;
 		case 'deco' :
-			unset ($_SESSION['idUser']);
+			unset ($_SESSION['idpersonne']);
 			session_destroy();
 			header('Location: index.php?login');
 			break;
@@ -206,6 +222,7 @@ else if (isset($_GET['donnees']))
 			$html.= '<label><input type="submit" name="bAnnuler" value="Annuler"  /> </label> </form></center>';
 			if (isset($_POST['bAjouterTitre']))
 			{	
+				// on execute la requete ajoutant le titre du formulaire
 				$requeteajouttitre=$pdo->prepare("INSERT INTO ttitres SET titre='".$_POST['newtitre']."',datetitre=now()");
 				$requeteajouttitre->execute();
 				header('Location: index.php?donnees=listetitre'); 
@@ -215,6 +232,63 @@ else if (isset($_GET['donnees']))
 				header('Location: index.php'); 
 				}
 			break;
+		//-----------------------------------------------------------------------
+		// action en rapport avec la CATEGORIE
+		case 'listecategorie' :
+			$requete=$pdo->prepare('SELECT idcategorie, categorie FROM tcategories ORDER BY categorie');
+			$requete->execute();
+			$html= '<center><table border="1" bgcolor="#FFFF66">';
+			$html.= '<tr><th>categorie</th> <th>Modif</th> <th>Suppr</th></tr>';
+			while ($donnees = $requete->fetch())
+			{
+				$html.= '<tr><td>'.$donnees['categorie'].'</td>';
+				$html.= '<td><a href="?donnees=modifiercategorie&idcategorie='.$donnees['idcategorie'].'&categorie='.$donnees['categorie'].'"onclick="return (confirm(\'Etes-vous sur de vouloir modifier cette categorie\'))"><img src="images/Modifier42x48.png" alt= "Modif"></a></td>';
+				$html.= '<td><a href="index.php?supprimercategorie&amp;idcategorie='.$donnees['idcategorie'].'&categorie='.$donnees['categorie'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer cette categorie\'))"><img src="images/supprimer45x45.png" alt= "supprimer"></a></td></tr>';	
+			}
+			$html.= '</table>';
+			$html.= '<a href="?donnees=ajoutercategorie">Ajouter une categorie</a></center>';
+			$requete->closeCursor();
+			break;
+		case 'listecategorie2' :
+			$html = '<center><table border="1" bgcolor="#FFFF66">';
+			$html.= '<tr><th>Catégories</th><th colspan=2>Action</th><th>Nombre de titres</th></div>';
+			$requete=$pdo->prepare ('SELECT * FROM tcategories GROUP BY idcategorie') or die (print_r($pdo->errorInfo()));
+			$requete->execute();
+			while ($donnees = $requete->fetch())
+			{
+				$html.= '<tr><td>'.$donnees['categorie'].'</td>';
+			
+				$html.= '<td><a href="?donnees=modifiercategorie&idcategorie='.$donnees['idcategorie'].'&categorie='.$donnees['categorie'].'"onclick="return (confirm(\'Etes-vous sur de vouloir modifier cette categorie\'))"><img src="images/Modifier42x48.png" alt= "Modif"></a></td>';
+				$html.= '<td><a href="index.php?supprimercategorie&amp;idcategorie='.$donnees['idcategorie'].'&categorie='.$donnees['categorie'].'"onclick="return (confirm(\'Etes-vous sur de vouloir supprimer cette categorie\'))"><img src="images/supprimer45x45.png" alt= "supprimer"></a></td>';
+
+				$requete2=$pdo->prepare ('SELECT COUNT(idtitre) AS NbrTitre FROM titreetcategorie WHERE idcategorie ="'.$donnees['idcategorie'].'"') or die (print_r($pdo->errorInfo()));
+				$requete2->execute();
+				while ($donnees = $requete2->fetch())
+				{
+					$html.= '<td><center>'.$donnees['NbrTitre'].'</center></td></tr>';
+				}	
+			}
+			$html.= '</table>';
+			$html.= '<a href="?donnees=ajoutercategorie">Ajouter une catégorie</a></center>';
+			$requete->closeCursor();
+			break;
+		case 'ajoutercategorie' :
+			$html = '<center><form id="monformajoutercategorie" name="formajoutercategorie" method="POST"  action="?donnees=ajoutercategorie">';
+			$html.= '<label>Catégorie :	<input type="text" name="newcategorie"  size="60" colspan="2" autofocus /> </label>';
+			$html.= '<label><input type="submit" name="bAjouterCategorie" value="Ajouter" /> </label>';
+			$html.= '<label><input type="submit" name="bAnnuler" value="Annuler"  /> </label> </form></center>';
+			if (isset($_POST['bAjouterCategorie']))
+			{	
+				// on execute la requete ajoutant la catégorie du formulaire
+				$requeteajoutcategorie=$pdo->prepare("INSERT INTO tcategories SET categorie='".$_POST['newcategorie']."'");
+				$requeteajoutcategorie->execute();
+				header('Location: index.php?donnees=listecategorie2'); 
+			}
+			if (isset($_POST['bAnnuler']))
+				{
+				header('Location: index.php'); 
+				}
+			break;	
 		}
 	}
 else
@@ -222,34 +296,67 @@ else
 	$html='<a href="index.php?login">S\'identifier</a>';
 	}
 //************************************************************************
+//	Utilisation de 	IF à la place de CASE pour montrer la possibilité
+
 	// appel de la fonction supprimertitre
 	if (isset($_GET['supprimertitre']))
-		{
-			$title = NEW Title($pdo);
-			$data=$title->supprimertitre($_GET['idtitre']);
-			$html = 'La suppression a été correctement effectuée</br>';
-			$html.= 'Le titre <strong>'.$_GET['titre'].'</strong> a été supprimé</br>';
-		}
-	// au retour de la fonction supprimer:
-	// if (isset($_GET['suppression']))
-	// {
+	{
+		$title = NEW Title($pdo);
+		$data =$title->supprimertitre($_GET['idtitre']);
+		$html = 'La suppression a été correctement effectuée</br>';
+		$html.= 'Le titre <strong>'.$_GET['titre'].'</strong> a été supprimé</br>';
+	}
+	// appel de la fonction supprimerpersonne
+	if (isset($_GET['supprimerpersonne']))	
+	{
+		$user = NEW user($pdo);
+		$data =$user->supprimerpersonne($_GET['idpersonne']);
+		$html = 'La suppression a été correctement effectuée</br>';
+		$html.= 'La personne avec l\'ID <strong>'.$_GET['idpersonne'].'</strong> a été supprimée</br>';		
+	}
+	// appel de la fonction supprimercategorie
+	if (isset($_GET['supprimercategorie']))	
+	{
+		$categorie = NEW Category($pdo);
+		$data =$categorie->supprimercategorie($_GET['idcategorie']);
+		$html = 'La suppression a été correctement effectuée</br>';
+		$html.= 'La catégorie avec l\'ID <strong>'.$_GET['idcategorie'].'</strong> a été supprimée</br>';		
+	}	
+	
+	
+	// if (isset($_GET['cat']))//partie affichage par categorie
+	// {	
+		// $requete=req_tri('categorie', $_GET['cat']);//fonction tri
+
+		// $html = '<center><table border="1" >';
+		// $html.= '<tr><th class="entete">Titres</th><th class="entete" >Durée</th><th class="entete" width="20%">Date d\'enregistrement</th><th class="entete" width="20%">Date de sortie</th><th class="entete" width="20%">Catégorie</th><th class="entete" width="13%">Support</th><th colspan=2><img src="image/parametre.gif" alt="parametre"></th></div>';
 		// while ($donnees = $requete->fetch())
 		// {
-			// echo 'Le titre <strong>'.$donnees['titre'].'</strong> a été supprimé</br>';
+			// $req=$pdo->prepare('SELECT distinct typesupport FROM v_titre_cat4 WHERE titre="'.$donnees['titre'].'"') or die (print_r($pdo->errorInfo()));
+			// $req->execute();
+
+			// $result = $req->fetchAll(PDO::FETCH_COLUMN);
+
+			// $typesupport = implode(" ", $result);
+			
+			// $html.= '<tr><td>'.$donnees['titre'].'</td>';
+			// $html.= '<td>'.$donnees['duree'].'</td>';
+			// $date=date_create ($donnees['dateinscription']);
+			// $html.= '<td>'.date_format($date, "d-m-Y G:h:i").'</td>';
+			// $sortie=date_create($donnees['datesortie']);
+			// $html.= '<td>'.date_format($sortie, "d-m-Y").'</td>';
+			// $html.= '<td>'.$donnees['categorie'].'</td>';
+			// $html.= '<td>'.$typesupport.'</td>';
+			// $html.= '<td><a href="updatetitre.php?id='.$donnees['idtitres'].'"><center><img src="image/modifier2.png" alt="modifier"></a></center></td>';
+			// $html.= '<td class="cointableau"><a href="delete.php?titre='.$donnees['titre'].'" onclick="return(confirm(\'Etes-vous sur de vouloir supprimer cette entrée?\'))"><center><img src="image/supprimer2.png" alt="supprimer"></a></center></td></tr>';
+			// }
+			// $html.= '</table></center>';
+			// $requete->closeCursor();
 		// }
-	// }
-	// appel des fonctions ajoutertitre
-	// if (isset($_GET['ajoutertitre_m']))
-		// {
-			// ajoutertitre_v();
-		// }
-	// if (isset($_GET['ajoutertitre_c']))
-		// {
-			// ajoutertitre_c();
-		// }
+
 //****************************************************************************************	
 	
-if (isset($_SESSION['idUser']))		// on cache le menu si pas de session utilisateur
+if (isset($_SESSION['idpersonne']))		// on cache le menu si pas de session utilisateur
 {
 ?>		
 		<!-- Le menu -->
@@ -285,25 +392,25 @@ if (isset($_SESSION['idUser']))		// on cache le menu si pas de session utilisate
                         </li>
                         <li><a href="#">gestion des personnes</a>
                             <ul>
-                                <li><a href="?donnees=modifier&idUser='<?php echo $_SESSION['idUser']; ?>'">Modifier mon mot de passe</a></li>
-                                <li><a href="#">Submenu y</a></li>
-                            </ul>
+                                <li><a href="?addUser=oui">Ajouter une personne</a></li>
+								<li><a href="?donnees=modifier&idpersonne=<?php echo $_SESSION['idpersonne']; ?>">Modifier mon mot de passe</a></li>
+								<li><a href="?donnees=listepersonne">Modifier ou supprimer une personne</a></li>
+							</ul>
                         </li>
                     </ul>
                 </li>
                 <li><a href="#">Catégories</a>
 					<span id="s3"></span>
                     <ul class="subs">
-                        <li><a href="#">Liste des catégories</a>
+                        <li><a href="?donnees=listecategorie2">Liste des catégories</a>
                             <ul>
-                                <li><a href="#">afficher la liste des categories</a></li>
-                                <li><a href="#">Submenu y</a></li>
+                                <li><a href="?donnees=listecategorie">afficher la liste des categories</a></li>
+                                <li><a href="?donnees=listecategorie2">afficher le nombre de titres par categorie</a></li>
                             </ul>
                         </li>
-                        <li><a href="#">Mon histoire</a>
+                        <li><a href="#">gestion des catégories</a>
                             <ul>
-                                <li><a href="#">Submenu x</a></li>
-                                <li><a href="#">Submenu y</a></li>
+                                <li><a href="?donnees=ajoutercategorie">Ajouter une catégorie</a></li>
                             </ul>
                         </li>
                     </ul>
@@ -327,7 +434,7 @@ if (isset($_SESSION['idUser']))		// on cache le menu si pas de session utilisate
 				<!-- un article de la section: -->
 				<article>      
 					<h1>Sélectionnez dans le menu ci dessous</h1>
-					<p>afin d'afficher et gérer la vidéothéque</p><br />
+					<p>afin d'afficher et gérer la vidéothéque de prêt de SUPPORT</p><br />
 				</article>
 			</section>
 		</div>

@@ -19,7 +19,6 @@ public function nouvelUtilisateur($login,$password)
 		$this->pdo->exec($variable);
 		echo 'Entrée en bdd réussie.<br />';
 		}
-		
 	else
 		{
 		echo 'Erreur fnouvelUtilisateur: Login déjà existant.<br />';
@@ -62,7 +61,7 @@ public function login($loginCtrl,$pwd)
 		while ($row=$req->fetch())
 			{
 				$mdp=$row['password'];
-				$idUser=$row['idpersonne'];
+				$idpersonne=$row['idpersonne'];
 			}
 		if ((isset($mdp))&&($pwd==$mdp))	//si le mot de passe est bon
 			{
@@ -70,7 +69,7 @@ public function login($loginCtrl,$pwd)
 				// $response.='<a href="?donnees=modifier&idUser='.$idUser.'">Modifier mes données</a><br />';
 				// $response.='<a href="?donnees=listepersonne">Lister les utilisateurs</a><br />';
 				// $response.='<a href="?donnees=deco">Se déconnecter</a><br />';
-				$_SESSION['idUser']=$idUser;	// création de la session utilisateur
+				$_SESSION['idpersonne']=$idpersonne;	// création de la session utilisateur
 			}
 		else
 			{
@@ -80,19 +79,19 @@ public function login($loginCtrl,$pwd)
 	}
 	
 public function getInfoUserById($idpersonne)	{
-	$sql='SELECT login FROM tpersonnes WHERE idpersonne=:user';
+	$sql='SELECT login FROM tpersonnes WHERE idpersonne=:idpersonne';
 	$req=$this->pdo->prepare($sql);
 	$req->execute(array(
-	'user' => $idpersonne
+	'idpersonne' => $idpersonne
 	));
 	return $req;
 }
 
 public function recModifsUser($idpersonne,$login,$pwd,$nPwd,$nPwd2){
-	$sql='SELECT password FROM tpersonnes WHERE idpersonne=:user';
+	$sql='SELECT password FROM tpersonnes WHERE idpersonne=:idpersonne';
 	$req=$this->pdo->prepare($sql);
 	$req->execute(array(
-	'user' => $idpersonne
+	'idpersonne' => $idpersonne
 	));
 	while ($row=$req->fetch()){
 		$passInBDD=$row['password'];
@@ -101,12 +100,12 @@ public function recModifsUser($idpersonne,$login,$pwd,$nPwd,$nPwd2){
 		// echo $pwd.' - '.$nPwd.' - '.$nPwd2;
 		if(($nPwd!='')AND($nPwd==$nPwd2)){	
 			// echo '<h1>'.$nPwd.'</h1>';
-			$sql='UPDATE tpersonnes SET login=:login, password=:nPwd WHERE idpersonne=:idUser';
+			$sql='UPDATE tpersonnes SET login=:login, password=:nPwd WHERE idpersonne=:idpersonne';
 			$req=$this->pdo->prepare($sql);
 			$req->execute(array(
 			'login' => $login,
 			'nPwd' => md5($nPwd),
-			'idUser' => $idpersonne
+			'idpersonne' => $idpersonne
 			));
 			return 1;
 			}
@@ -114,11 +113,11 @@ public function recModifsUser($idpersonne,$login,$pwd,$nPwd,$nPwd2){
 			return 3;
 			}
 		else{
-			$sql='UPDATE tpersonnes SET login=:login WHERE idpersonne=:idUser';
+			$sql='UPDATE tpersonnes SET login=:login WHERE idpersonne=:idpersonne';
 			$req=$this->pdo->prepare($sql);
 			$req->execute(array(
 			'login' => $login,
-			'idUser' => $idpersonne
+			'idpersonne' => $idpersonne
 			));
 			return 1;
 		}
@@ -132,16 +131,24 @@ public function getUsers(){
 	return $this->pdo->query($sql);
 }
 
-public function getUserFromId($id){
-	$sql='SELECT idpersonne, login FROM tpersonnes WHERE idpersonne=:idUser';
+public function getUserFromId($idpersonne){
+	$sql='SELECT idpersonne, login, nom, prenom, telephone, gsm FROM tpersonnes WHERE idpersonne=:idpersonne';
+	// $sql='SELECT idpersonne, login FROM tpersonnes WHERE idpersonne=:idpersonne';
 	$req=$this->pdo->prepare($sql);
 	$req->execute(array(
-	'idUser' => $idpersonne
+	'idpersonne' => $idpersonne
+	// 'login' => $login,
+	// 'nom' => $nom,
+	// 'prenom' => $prenom,
+	// 'gsm' => $gsm,
+	// 'telephone' => $telephone
+	// 'codepostal' => $codepostal,
+	// 'localite' => $localite
 	));
 	return $req;
 }
 
-public function updateUser($id,$login){
+public function updateUser($idpersonne,$login){
 	$sql='UPDATE tpersonnes SET login=:login WHERE idpersonne=:idpersonne';
 	$req=$this->pdo->prepare($sql);
 	$req->execute(array(
@@ -152,15 +159,15 @@ public function updateUser($id,$login){
 
 public function supprimerpersonne($idpersonne)
 {
-if (isset($_GET['supprimerpersonne']))
-	{
+// if (isset($_GET['supprimerpersonne']))
+	// {
 		include ('connect/connexiontp5.php');
 		$idpersonne=$_GET['idpersonne'];
 		$pdo->exec("DELETE FROM tpersonnes WHERE idpersonne=".$idpersonne." ");
-		echo 'La suppression a été correctement effectuée</br>';
-		echo '<a href="indexpersonne.php?suppression">Actualiser la liste</a></br>';
-		header('Location: indexpersonne.php?suppressionfini'); 
-	}
+		// echo 'La suppression a été correctement effectuée</br>';
+		// echo '<a href="indexpersonne.php?suppression">Actualiser la liste</a></br>';
+		// header('Location: indexpersonne.php?suppressionfini'); 
+	// }
 }
 // ----------------------------------------------------------
 public function modifierpersonne_v($idpersonne)
